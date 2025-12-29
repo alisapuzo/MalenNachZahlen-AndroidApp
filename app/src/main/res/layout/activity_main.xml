@@ -34,7 +34,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="438dp" />
+        tools:layout_editor_absoluteY="391dp" />
 
     <Button
         android:id="@+id/button"
@@ -43,5 +43,21 @@
         android:text="Login"
         tools:layout_editor_absoluteX="286dp"
         tools:layout_editor_absoluteY="626dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email eingeben:"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="372dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwort eingeben:"
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="478dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
