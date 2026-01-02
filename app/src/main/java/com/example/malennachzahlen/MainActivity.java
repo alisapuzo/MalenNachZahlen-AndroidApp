@@ -1,6 +1,10 @@
 package com.example.malennachzahlen;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,15 +14,51 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    EditText emailInput;
+    EditText passwordInput;
+    Button loginButton;
+    int counter = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); //lädt XML
+
+        emailInput = findViewById(R.id.editTextTextEmailAddress);
+        passwordInput = findViewById(R.id.editTextTextPassword);
+        loginButton = findViewById(R.id.button);
+
+        loginButton.setOnClickListener(new View.OnClickListener() { //anonyme innere Klasse
+            @Override //interface
+            public void onClick(View v) {
+                String email = emailInput.getText().toString();
+                String password = passwordInput.getText().toString();
+
+                if (email.equals("admin") && password.equals("admin")) {
+                    Toast.makeText(MainActivity.this,
+                            "Login erfolgreich", Toast.LENGTH_SHORT).show();
+                } else {
+                    counter--;
+
+                    Toast.makeText(MainActivity.this,
+                            "Falsche Daten. Versuche übrig: " + counter,
+                            Toast.LENGTH_SHORT).show();
+                    if (counter == 0) {
+                        loginButton.setEnabled(false); //Button deaktivieren
+                        Toast.makeText(MainActivity.this,
+                                "Login gesperrt", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
 }
