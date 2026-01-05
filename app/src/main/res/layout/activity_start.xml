@@ -39,7 +39,7 @@
         android:id="@+id/button3"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="26dp"
         android:text="Registrieren"
         android:layout_gravity="center"/>
 
