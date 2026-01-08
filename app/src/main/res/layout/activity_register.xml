@@ -37,25 +37,28 @@
         android:ems="10"
         android:inputType="text"
         android:hint="Name eingeben"
-        android:layout_margin="4dp"/>
+        android:layout_margin="4dp"
+        android:layout_gravity="center"/>
 
     <EditText
         android:id="@+id/editTextTextEmailAddress2"
-        android:layout_width="match_parent"
+        android:layout_width="335dp"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
         android:ems="10"
-        android:inputType="textEmailAddress"
         android:hint="Email-Adresse eingeben"
-        android:layout_margin="4dp"/>
+        android:inputType="textEmailAddress"
+        android:layout_gravity="center"/>
 
     <EditText
         android:id="@+id/editTextTextPassword2"
-        android:layout_width="match_parent"
+        android:layout_width="335dp"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="Enter Password"
-        android:layout_margin="4dp"/>
+        android:inputType="textPassword"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/button3"
@@ -64,7 +67,8 @@
         android:layout_gravity="end"
         android:layout_marginTop="65dp"
         android:text="Registrieren"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"/>
 
 
 </LinearLayout>
