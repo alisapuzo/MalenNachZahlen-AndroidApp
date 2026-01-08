@@ -1,5 +1,6 @@
 package com.example.malennachzahlen;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     int counter = 3;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
