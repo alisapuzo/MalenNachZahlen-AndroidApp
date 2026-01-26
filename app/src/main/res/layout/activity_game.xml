@@ -4,13 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Header mit Fortschritt und Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
         android:background="?attr/colorPrimary">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Zurück"/>
 
         <TextView
             android:id="@+id/progressText"
@@ -20,20 +25,14 @@
             android:text="Fortschritt: 0%"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:gravity="center"/>
 
         <Button
             android:id="@+id/pauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pausieren"/>
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Abmelden"
-            android:layout_marginStart="8dp"/>
+            android:text="Speichern"/>
     </LinearLayout>
 
     <!-- Paint-by-Numbers View -->
