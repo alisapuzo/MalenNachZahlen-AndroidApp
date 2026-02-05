@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.malennachzahlen.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -23,14 +25,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Firebase
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Firebase Authentication initialisieren
+        // Firebase initialisieren
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Views mit findViewById verknüpfen
         nameEditText = findViewById(R.id.editTextText);
@@ -116,13 +120,10 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Registrierung erfolgreich
                         FirebaseUser user = mAuth.getCurrentUser();
+                        String userId = user.getUid();
 
-                        Toast.makeText(RegisterActivity.this,
-                                "Registrierung erfolgreich! Willkommen " + name + "!",
-                                Toast.LENGTH_LONG).show();
-
-                        // Gehe zur HomeActivity
-                        navigateToHome();
+                        // User-Daten in Firestore speichern
+                        saveUserToFirestore(userId, name, email);
 
                     } else {
                         // Registrierung fehlgeschlagen
@@ -140,6 +141,23 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    private void saveUserToFirestore(String userId, String name, String email) {
+        // User erstellen
+        User user = new User(userId, name, email);
+
+        // In Firestore speichern
+        db.collection("user").document(userId)
+                .set(user)
+                .addOnSuccessListener(aVoid -> {
+                    // Toast Benachrichtigung an User wenn Registrierung erfolgreich
+                    Toast.makeText(RegisterActivity.this, "Registrierung erfolgreich! Willkommen " + name + "!", Toast.LENGTH_LONG).show();
+                    navigateToHome();
+                })
+                .addOnFailureListener(e -> {
+                    // Toast Benachrichtigung wenn Fehler beim speichern auftritt
+                    Toast.makeText(RegisterActivity.this, "Fehler beim Speichern der Daten: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
     private void navigateToHome() {
         Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
         startActivity(intent);
