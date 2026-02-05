@@ -8,6 +8,9 @@ import android.graphics.Paint;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.MotionEvent;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +26,9 @@ public class PaintByNumbersView extends View {
     private Paint paint;
     private Paint textPaint;
     private float scaleFactor = 1.0f;
+    private int selectedColor = -1;
 
-    public PaintByNumbersView(Context context, AttributeSet attrs) {
+    public PaintByNumbersView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -136,5 +140,31 @@ public class PaintByNumbersView extends View {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN && grayBitmap != null) {
+
+            //Touch Position zu Pixel-Koordinate umrechnen
+            int x = (int) (event.getX()/scaleFactor);
+            int y = (int) (event.getY()/scaleFactor);
+
+            // Prüfen ob die Postiton innerhalb vom Grid ist
+            if (x>=0 && x<grayBitmap.getWidth() && y>=0 & y<grayBitmap.getHeight()) {
+                // Prüfen ob die ausgewählte Farbe stimmt
+                if (selectedColor == colorNumbers[x][y] && !isPainted[x][y]) {
+                    isPainted[x][y] = true; // ausmalen
+                    invalidate(); // View neu zeichnen
+                }
+            }
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    // SETTER für selectedColor
+    public void setSelectedColor(int colorNumber) {
+        this.selectedColor = colorNumber;
     }
 }
