@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        // ========== VALIDIERUNG ==========
+        // VALIDIERUNG
 
         // 1. Prüfe ob Name eingegeben wurde
         if (name.isEmpty()) {
@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // ========== FIREBASE REGISTRIERUNG ==========
+        // FIREBASE REGISTRIERUNG
 
         // Buttons deaktivieren während Registrierung läuft
         registerButton.setEnabled(false);

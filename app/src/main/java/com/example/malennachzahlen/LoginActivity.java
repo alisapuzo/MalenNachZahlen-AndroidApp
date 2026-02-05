@@ -3,6 +3,7 @@ package com.example.malennachzahlen;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,62 +15,102 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity {
 
 
-    EditText emailInput;
-    EditText passwordInput;
-    Button loginButton;
-    Button backToStartButton;
-    int counter = 3;
+    private EditText emailEditText;
+    private EditText pwEditText;
+    private Button loginButton;
+    private Button backButton;
 
-    @SuppressLint("MissingInflatedId")
+    private FirebaseAuth mAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login); //lädt XML
+        setContentView(R.layout.activity_login); // lädt XML
 
-        emailInput = findViewById(R.id.editTextTextEmailAddress);
-        passwordInput = findViewById(R.id.editTextTextPassword);
+        // Firebase initalisieren
+        mAuth = FirebaseAuth.getInstance();
+
+        // Views verknüpfen
+        emailEditText = findViewById(R.id.editTextTextEmailAddress);
+        pwEditText = findViewById(R.id.editTextTextPassword);
         loginButton = findViewById(R.id.button);
-        backToStartButton = findViewById(R.id.button4);
+        backButton = findViewById(R.id.button4);
 
-        backToStartButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, StartActivity.class);
-            startActivity(intent);
-            finish(); // Login schließen
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() { //anonyme innere Klasse
-            @Override //interface
+        // Button-Listener
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                String email = emailInput.getText().toString();
-                String password = passwordInput.getText().toString();
-
-                if (email.equals("admin") && password.equals("admin")) {
-                    Toast.makeText(LoginActivity.this,
-                            "Login erfolgreich", Toast.LENGTH_SHORT).show();
-                } else {
-                    counter--;
-
-                    Toast.makeText(LoginActivity.this,
-                            "Falsche Daten. Versuche übrig: " + counter,
-                            Toast.LENGTH_SHORT).show();
-                    if (counter == 0) {
-                        loginButton.setEnabled(false); //Button deaktivieren
-                        Toast.makeText(LoginActivity.this,
-                                "Login gesperrt", Toast.LENGTH_LONG).show();
-                    }
-                }
+                loginUser();
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
     }
 
+    private void loginUser() {
+        String email = emailEditText.getText().toString().trim();
+        String pw = pwEditText.getText().toString().trim();
+
+        // VALIDIERUNG
+        if (email.isEmpty()) {
+            emailEditText.setError("Bitte E-Mail eingeben");
+            emailEditText.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Bitte gültige E-Mail eingeben");
+            emailEditText.requestFocus();
+        }
+
+        if (pw.isEmpty()) {
+            pwEditText.setError("Bitte Passwort eingeben");
+            pwEditText.requestFocus();
+            return;
+        }
+
+        // FIREBASE LOGIN
+
+        loginButton.setEnabled(false);
+        backButton.setEnabled(false);
+
+        mAuth.signInWithEmailAndPassword(email, pw)
+                .addOnCompleteListener(this, task -> {
+                    loginButton.setEnabled(true);
+                    backButton.setEnabled(true);
+
+                    if (task.isSuccessful()) {
+                        // Login erfolgreich
+                        // Toast Benachrichtigung an User
+                        Toast.makeText(LoginActivity.this, "Willkommen zurück!", Toast.LENGTH_SHORT).show();
+
+                        navigateToHome();
+
+                    } else {
+                        // Login fehlgeschlagen
+                        String errorMessage = "Login fehlgeschlagen";
+                        if (task.getException() != null) {
+                            errorMessage = task.getException().getMessage();
+                        }
+                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void navigateToHome() {
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish(); // LoginActivity schließen, damit User nicht zurück kann
+    }
 }
