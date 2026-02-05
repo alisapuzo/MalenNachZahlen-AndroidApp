@@ -1,5 +1,6 @@
 package com.example.malennachzahlen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
    private FirebaseAuth mAuth;
    private FirebaseFirestore db;
    private String userId;
+   private String imageFile;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,17 @@ public class GameActivity extends AppCompatActivity {
       paintView = findViewById(R.id.paintView);
       colorPalette = findViewById(R.id.colorPalette);
 
-
       userId = mAuth.getCurrentUser().getUid();
 
+      imageFile = "ampel.png";
+
+      // Button Listener
+      backButton.setOnClickListener(v -> navigateToHome());
    }
+
+   private void navigateToHome() {
+      Intent intent = new Intent(this, HomeActivity.class);
+      startActivity(intent);
+      finish();
    }
+}
