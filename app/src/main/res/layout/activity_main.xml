@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Malen nach Zahlen"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="341dp"
+        android:layout_height="wrap_content"
+        android:text="Von Malin Schütz und Alisa Puzo"
+        android:layout_gravity="center|top"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="191dp"
+        android:orientation="vertical"></LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="228dp"
+        android:layout_height="wrap_content"
+        android:text="Anmelden"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="Registrieren"
+        android:layout_gravity="center"/>
+
+
+</LinearLayout>
