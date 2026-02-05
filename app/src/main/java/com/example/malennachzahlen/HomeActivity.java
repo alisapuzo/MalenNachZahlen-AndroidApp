@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Prüfe ob User eingeloggt ist
         if (mAuth.getCurrentUser() == null) {
-            navigateToLogin();
+            navigateToMain();
             return;
         }
 
@@ -93,14 +93,14 @@ public class HomeActivity extends AppCompatActivity {
                 .setMessage("Möchtest du dich wirklich abmelden?")
                 .setPositiveButton("Ja", (dialog, which) -> {
                     mAuth.signOut();
-                    navigateToLogin();
+                    navigateToMain();
                 })
                 .setNegativeButton("Nein", null)
                 .show();
     }
 
-    private void navigateToLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
+    private void navigateToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

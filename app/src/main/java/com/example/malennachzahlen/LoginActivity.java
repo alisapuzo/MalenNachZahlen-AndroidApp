@@ -14,12 +14,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     private EditText emailEditText;
     private EditText pwEditText;
     private Button loginButton;
     private Button backButton;
-
     private FirebaseAuth mAuth;
 
 
