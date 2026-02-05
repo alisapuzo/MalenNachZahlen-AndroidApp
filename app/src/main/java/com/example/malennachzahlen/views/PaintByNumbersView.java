@@ -163,8 +163,54 @@ public class PaintByNumbersView extends View {
         return super.onTouchEvent(event);
     }
 
-    // SETTER für selectedColor
+    // SETTER UND GETTER
+    // Farbe auswählen (wird von GameActivity aufgerufen)
     public void setSelectedColor(int colorNumber) {
         this.selectedColor = colorNumber;
+    }
+
+    // Gibt alle Farben mit ihrer dazugehörigen Nummer zurück
+    public Map<Integer, Integer> getColorMap() {
+        return colorMap;
+    }
+
+    // Fortschritt als Map speichern (kann nicht als 2D-Array in Firebase gespeichert werden)
+    public Map<String, Boolean> getPaintedPixelsMap() {
+        Map<String, Boolean> map = new HashMap<>();
+        if (isPainted == null)
+            return map; // Variable == null wenn sie initalisiert aber nicht erzeugt wurde
+
+        for (int x=0; x<isPainted.length; x++) {    // Anzahl an Zeilen
+            for (int y=0; y<isPainted[0].length; y++) {     // Anzahl Spalten über Länge der ersten Zeile
+                if (isPainted[x][y]) {
+                    map.put(x + "_" + y, true);     // Speichert die Koordinaten so {"3_5": true}
+                }
+            }
+        }
+        return map;
+    }
+
+    // Lade gespeicherten Fortschritt
+    public void setPaintedPixels(Map<String, Boolean> paintedPixels) {
+        if (isPainted == null)
+            return;
+        for (Map.Entry<String, Boolean> entry : paintedPixels.entrySet()) {
+            String[] coords = entry.getKey().split("_");
+            int x = Integer.parseInt(coords[0]);
+            int y = Integer.parseInt(coords[1]);
+            isPainted[x][y] = entry.getValue();
+        }
+        invalidate();
+    }
+
+    // Zähle ausgemalte Pixel
+    private int countPaintedPixels() {
+        int count = 0;
+        for (int x=0; x<isPainted.length; x++) {
+            for (int y=0; y<isPainted[0].length; y++) {
+                if (isPainted[x][y]) count++;
+            }
+        }
+        return count;
     }
 }
