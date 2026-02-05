@@ -22,6 +22,7 @@ public class PaintByNumbersView extends View {
     private Map<Integer, Integer> colorMap; // Mappt Nummer zur entsprechenden Farbe
     private Paint paint;
     private Paint textPaint;
+    private float scaleFactor = 1.0f;
 
     public PaintByNumbersView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -91,5 +92,49 @@ public class PaintByNumbersView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        if (grayBitmap == null) return; // Bild noch nciht geladen
+
+        int width = grayBitmap.getWidth();
+        int height = grayBitmap.getHeight();
+
+        // Skalierung, Bild an Bildschirm anpassen
+        float scaleX = (float) getWidth();
+        float scaleY = (float) getHeight();
+        scaleFactor = Math.min(scaleX, scaleY);
+
+        float pixelSize = scaleFactor;
+
+        // Pixel zeichnen
+        for (int x=0; x<width; x++) {
+            for ( int y=0; y<width; y++) {
+                //
+                float left = x * pixelSize;
+                float top = y * pixelSize;
+                float right = left + pixelSize;
+                float bottom = top + pixelSize;
+
+                //Farbe auswählen
+                if (isPainted[x][y]) {
+                    paint.setColor(pixelColors[x][y]);
+                } else {
+                    paint.setColor(grayBitmap.getPixel(x, y));
+                }
+
+                // Rechteck zeichnen
+                canvas.drawRect(left, top, right, bottom, paint);
+
+                // Nummer einzeichnen
+                if (!isPainted[x][y]) {
+                    textPaint.setTextSize(pixelSize * 0.5f);
+                    canvas.drawText(
+                            String.valueOf(colorNumbers[x][y]),
+                            left + pixelSize / 2,       // Berechnet mitte des Rechtecks
+                            top + pixelSize / 2 + textPaint.getTextSize() / 3,   // wegen Baseline korrektur nach unten
+                            textPaint
+                    );
+                }
+            }
+        }
     }
 }
