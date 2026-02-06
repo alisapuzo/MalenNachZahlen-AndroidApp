@@ -26,7 +26,6 @@ public class PaintByNumbersView extends View {
     private Paint textPaint;
     private float scaleFactor = 1.0f;
     private int selectedColor = -1;
-    private int totalPixels = -1; // Anzahl wird beim ersten laden geupdatet und gespeichert
 
     public PaintByNumbersView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -205,10 +204,6 @@ public class PaintByNumbersView extends View {
 
     // Gebe Gesamte Anzahl an Pixel zurück
     public int getTotalPixels(){
-        if (totalPixels != -1) {
-            return totalPixels; // Nutze Cache
-        }
-
         if (originalBitmap == null) {
             return 0;
         }
@@ -220,8 +215,6 @@ public class PaintByNumbersView extends View {
                 count++;
             }
         }
-
-        totalPixels = count; // Speichere im Cache
         return count;
     }
 
