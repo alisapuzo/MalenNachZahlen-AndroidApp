@@ -27,7 +27,7 @@ public class PaintByNumbersView extends View {
     private float scaleFactor = 1.0f;
     private int selectedColor = -1;
     private int totalPixels = -1; // Anzahl wird beim ersten laden geupdatet und gespeichert
-    private int paintedPixels = 0;
+
     public PaintByNumbersView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -155,7 +155,6 @@ public class PaintByNumbersView extends View {
                 // Prüfen ob die ausgewählte Farbe stimmt
                 if (selectedColor == colorNumbers[x][y] && !isPainted[x][y]) {
                     isPainted[x][y] = true; // ausmalen
-                    paintedPixels++; // Count erhöhen um Fortschritt ausrechnen zu können
                     invalidate(); // View neu zeichnen
                 }
             }
@@ -228,6 +227,12 @@ public class PaintByNumbersView extends View {
 
     // Zähle ausgemalte Pixel
     public int countPaintedPixels() {
-        return paintedPixels;
+        int count = 0;
+        for (int x = 0; x < isPainted.length; x++) {
+            for (int y = 0; y < isPainted[0].length; y++) {
+                if (isPainted[x][y]) count++;
+            }
+        }
+        return count;
     }
 }
