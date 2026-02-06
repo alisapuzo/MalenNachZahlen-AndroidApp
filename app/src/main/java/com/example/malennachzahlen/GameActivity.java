@@ -1,6 +1,7 @@
 package com.example.malennachzahlen;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,6 +13,8 @@ import com.example.malennachzahlen.views.PaintByNumbersView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +30,8 @@ public class GameActivity extends AppCompatActivity {
    private FirebaseFirestore db;
    private String userId;
    private String imageFile;
+   private int selectedColorNumber = -1;
+   private Map<Integer, Integer> colorMap;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +48,11 @@ public class GameActivity extends AppCompatActivity {
       paintView = findViewById(R.id.paintView);
       colorPalette = findViewById(R.id.colorPalette);
 
+      // UserId holen
       userId = mAuth.getCurrentUser().getUid();
 
-      // TODO image file laden aus intent
+      // TODO image file laden aus Home Activity
       imageFile = getIntent().getStringExtra("IMAGE_FILE");
-
 
       // Button Listener
       backButton.setOnClickListener(v -> navigateToHome());
@@ -55,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
       loadImage();
    }
 
+   // Bild mithilfe der PaintByNumbersView laden
    private void loadImage() {
       try {
          InputStream is = getAssets().open(imageFile);
@@ -64,6 +70,13 @@ public class GameActivity extends AppCompatActivity {
          if (bitmap != null) {
             // Bild in PaintByNumbersView einsetzen
             paintView.setImage(bitmap);
+
+            // ColorMap (Pixelfarbe - Zahl Zuordnung) aus PaintByNumbersView holen
+            colorMap = paintView.getColorMap();
+
+            // Erstelle Palette
+            createColorPalette();
+
             Toast.makeText(this, "Bild geladen", Toast.LENGTH_SHORT).show();
          } else {
             Toast.makeText(this, "Fehler: Bild konnte nicht geladen werden", Toast.LENGTH_LONG).show();
@@ -72,6 +85,53 @@ public class GameActivity extends AppCompatActivity {
          e.printStackTrace();
          Toast.makeText(this, "Fehler beim Laden: " + e.getMessage(), Toast.LENGTH_LONG).show();
       }
+   }
+
+   private void createColorPalette() {
+      // evtl alte buutons löschen nötig
+
+      for (Map.Entry<Integer, Integer> entry : colorMap.entrySet()) {
+         int number = entry.getKey();
+         int color = entry.getValue();
+
+         // Button für jede Farbe erstellen
+         Button colorButton = new Button(this);
+         colorButton.setText(String.valueOf(number));
+         colorButton.setBackgroundColor(color);
+
+         // Button-Größe
+         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                 150,
+                 150
+         );
+         params.setMargins(8,8,8,8);
+         colorButton.setLayoutParams(params);
+
+         // Textfarbe der Zahl auf Button je nach Helligkeit der Farbe
+         colorButton.setTextColor(isColorDark(color) ? Color.WHITE : Color.BLACK);
+         colorButton.setTextSize(18);
+
+         // Click Listener
+         colorButton.setOnClickListener(v -> {
+            selectedColorNumber = number;
+            paintView.setSelectedColor(number);
+            Toast.makeText(this, "Farbe " + number + " ausgewählt", Toast.LENGTH_SHORT).show();
+         });
+
+         colorPalette.addView(colorButton);
+      }
+
+   }
+
+   // Herausfinden ob Farbe Hell oder Dunkel ist
+   private boolean isColorDark(int color) {
+      int red = Color.red(color);
+      int green = Color.green(color);
+      int blue = Color.blue(color);
+
+      // Helligkeit berechnen (Formel vereinfacht, weil ausreichend genau und besser für Performance)
+      double brightness = (red * 0.299 + green * 0.587 + blue * 0.114);
+      return brightness < 128;
    }
 
    private void navigateToHome() {
