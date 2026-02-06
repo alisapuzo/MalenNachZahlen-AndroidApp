@@ -30,6 +30,7 @@ public class PaintByNumbersView extends View {
     public PaintByNumbersView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
+
     }
 
     private void init() {
