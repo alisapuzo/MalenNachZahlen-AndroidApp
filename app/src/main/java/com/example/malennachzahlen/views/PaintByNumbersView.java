@@ -103,15 +103,15 @@ public class PaintByNumbersView extends View {
         int height = grayBitmap.getHeight();
 
         // Skalierung, Bild an Bildschirm anpassen
-        float scaleX = (float) getWidth();
-        float scaleY = (float) getHeight();
+        float scaleX = (float) getWidth()/width;
+        float scaleY = (float) getHeight()/height;
         scaleFactor = Math.min(scaleX, scaleY);
 
         float pixelSize = scaleFactor;
 
         // Pixel zeichnen
         for (int x=0; x<width; x++) {
-            for ( int y=0; y<width; y++) {
+            for ( int y=0; y<height; y++) {
                 //
                 float left = x * pixelSize;
                 float top = y * pixelSize;
@@ -151,7 +151,7 @@ public class PaintByNumbersView extends View {
             int y = (int) (event.getY()/scaleFactor);
 
             // Prüfen ob die Postiton innerhalb vom Grid ist
-            if (x>=0 && x<grayBitmap.getWidth() && y>=0 & y<grayBitmap.getHeight()) {
+            if (x>=0 && x<grayBitmap.getWidth() && y>=0 && y<grayBitmap.getHeight()) {
                 // Prüfen ob die ausgewählte Farbe stimmt
                 if (selectedColor == colorNumbers[x][y] && !isPainted[x][y]) {
                     isPainted[x][y] = true; // ausmalen
