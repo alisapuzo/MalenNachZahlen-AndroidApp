@@ -40,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         // Button Listener
         startGameButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, GameActivity.class);
-            intent.putExtra("IMAGE_FILE", "ampel.png");
+            intent.putExtra("IMAGE_FILE", "auto.png");
             startActivity(intent);
         });
 
