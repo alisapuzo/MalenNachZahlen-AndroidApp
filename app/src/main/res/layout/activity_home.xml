@@ -16,6 +16,25 @@
         android:textColor="?attr/colorPrimary"
         android:layout_marginBottom="48dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wähle ein Bild:"
+        android:textSize="18sp"
+        android:layout_marginBottom="12dp"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:id="@+id/imageContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
     <Button
         android:id="@+id/startGameButton"
         android:layout_width="match_parent"
