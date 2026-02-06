@@ -42,22 +42,33 @@ public class GameActivity extends AppCompatActivity {
       mAuth =FirebaseAuth.getInstance();
       db = FirebaseFirestore.getInstance();
 
+      // UserId holen
+      userId = mAuth.getCurrentUser().getUid();
+
       // Views verküpfen
       progressText = findViewById(R.id.progressText);
       backButton = findViewById(R.id.backButton);
       paintView = findViewById(R.id.paintView);
       colorPalette = findViewById(R.id.colorPalette);
 
-      // UserId holen
-      userId = mAuth.getCurrentUser().getUid();
-
       // TODO image file laden aus Home Activity
       imageFile = getIntent().getStringExtra("IMAGE_FILE");
 
       // Button Listener
-      backButton.setOnClickListener(v -> navigateToHome());
+      backButton.setOnClickListener(v -> {
+         saveProgress();
+         navigateToHome();
+      });
 
+      // Bild unf Fortschritt laden
       loadImage();
+      loadProgress();
+
+      // Listener für Fortschrittsanzeige
+//      paintView.setOnPixelPaintedListener(() -> {
+//         updateProgressDisplay();
+//      });
+
    }
 
    // Bild mithilfe der PaintByNumbersView laden
@@ -88,8 +99,6 @@ public class GameActivity extends AppCompatActivity {
    }
 
    private void createColorPalette() {
-      // evtl alte buutons löschen nötig
-
       for (Map.Entry<Integer, Integer> entry : colorMap.entrySet()) {
          int number = entry.getKey();
          int color = entry.getValue();
@@ -132,6 +141,60 @@ public class GameActivity extends AppCompatActivity {
       // Helligkeit berechnen (Formel vereinfacht, weil ausreichend genau und besser für Performance)
       double brightness = (red * 0.299 + green * 0.587 + blue * 0.114);
       return brightness < 128;
+   }
+
+   // Fortschritts
+   private void updateProgressDisplay() {
+      int painted = paintView.countPaintedPixels();
+      int total = paintView.getTotalPixels();
+
+      if (total > 0) {
+         int percentage = (painted * 100) / total;
+         progressText.setText("Fortschritt: " + percentage + "%");
+      } else {
+         progressText.setText("Fortschritt: 0%");
+      }
+   }
+
+   private void saveProgress() {
+      Map<String, Boolean> paintedPixelsMap = paintView.getPaintedPixelsMap();
+
+      Map<String, Object> progressData = new HashMap<>();
+      progressData.put("imageFile", imageFile);
+      progressData.put("paintedPixels", paintedPixelsMap);
+      progressData.put("paintedCount", paintView.countPaintedPixels());
+      progressData.put("totalPixels", paintView.getTotalPixels());
+
+      db.collection("user")
+              .document(userId)
+              .collection("progress")
+              .document(imageFile)
+              .set(progressData)
+              .addOnFailureListener(e -> {
+                 Toast.makeText(this, "Fehler beim Speichern", Toast.LENGTH_SHORT).show();
+              });
+
+   }
+
+   private void loadProgress() {
+      db.collection("user")
+              .document(userId)
+              .collection("progress")
+              .document(imageFile)
+              .get()
+              .addOnSuccessListener(documentSnapshot -> {
+                 if (documentSnapshot.exists()) {
+                    Map<String, Boolean> paintedPixelsMap = (Map<String, Boolean>) documentSnapshot.get("paintedPixels");
+
+                    if (paintedPixelsMap != null) {
+                       paintView.setPaintedPixels(paintedPixelsMap);
+                       updateProgressDisplay();
+                    }
+                 }
+              })
+              .addOnFailureListener(e -> {
+                 Toast.makeText(this, "Fehler beim Laden", Toast.LENGTH_LONG).show();
+              });
    }
 
    private void navigateToHome() {

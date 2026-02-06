@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.MotionEvent;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +26,7 @@ public class PaintByNumbersView extends View {
     private Paint textPaint;
     private float scaleFactor = 1.0f;
     private int selectedColor = -1;
+    private int totalPixels = -1; // Anzahl wird beim ersten laden geupdatet und gespeichert
 
     public PaintByNumbersView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -203,8 +203,30 @@ public class PaintByNumbersView extends View {
         invalidate();
     }
 
+    // Gebe Gesamte Anzahl an Pixel zurück
+    public int getTotalPixels(){
+        if (totalPixels != -1) {
+            return totalPixels; // Nutze Cache
+        }
+
+        if (originalBitmap == null) {
+            return 0;
+        }
+
+        int count = 0;
+        for (int x = 0; x < originalBitmap.getWidth(); x++) {
+            for (int y = 0; y < originalBitmap.getHeight(); y++) {
+                int pixelColor = originalBitmap.getPixel(x, y);
+                count++;
+            }
+        }
+
+        totalPixels = count; // Speichere im Cache
+        return count;
+    }
+
     // Zähle ausgemalte Pixel
-    private int countPaintedPixels() {
+    public int countPaintedPixels() {
         int count = 0;
         for (int x=0; x<isPainted.length; x++) {
             for (int y=0; y<isPainted[0].length; y++) {
