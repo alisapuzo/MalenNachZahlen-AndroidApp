@@ -2,46 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#F5F5F5">
 
-    <!-- Header mit Abmelden-Button -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="?attr/colorPrimary"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Abmelden"/>
-    </LinearLayout>
-
-    <!-- Titel -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Malen Nach Zahlen"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="48dp"/>
+
+    <Button
+        android:id="@+id/startGameButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wähle ein Bild zum Ausmalen"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:gravity="center"/>
+        android:text="Spiel starten"
+        android:textSize="18sp"
+        android:padding="16dp"/>
 
-    <!-- Bild-Galerie (ScrollView für mehrere Bilder später) -->
-    <ScrollView
+    <Button
+        android:id="@+id/logoutButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:text="Ausloggen"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/holo_red_light"/>
 
-        <LinearLayout
-            android:id="@+id/imageGallery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"/>
-    </ScrollView>
+    <TextView
+        android:id="@+id/userInfoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eingeloggt als: user@example.com"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="32dp"/>
 
 </LinearLayout>

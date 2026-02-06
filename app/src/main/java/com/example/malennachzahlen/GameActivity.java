@@ -46,7 +46,8 @@ public class GameActivity extends AppCompatActivity {
       userId = mAuth.getCurrentUser().getUid();
 
       // TODO image file laden aus intent
-      imageFile = "ampel.png";
+      imageFile = getIntent().getStringExtra("IMAGE_FILE");
+
 
       // Button Listener
       backButton.setOnClickListener(v -> navigateToHome());
