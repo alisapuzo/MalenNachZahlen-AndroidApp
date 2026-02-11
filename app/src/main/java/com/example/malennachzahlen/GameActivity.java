@@ -51,7 +51,6 @@ public class GameActivity extends AppCompatActivity {
       paintView = findViewById(R.id.paintView);
       colorPalette = findViewById(R.id.colorPalette);
 
-      // TODO image file laden aus Home Activity
       imageFile = getIntent().getStringExtra("IMAGE_FILE");
 
       // Button Listener
@@ -64,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
       loadImage();
       loadProgress();
 
-      // Listener für Fortschrittsanzeige
+//       Listener für Fortschrittsanzeige
 //      paintView.setOnPixelPaintedListener(() -> {
 //         updateProgressDisplay();
 //      });
@@ -79,6 +78,7 @@ public class GameActivity extends AppCompatActivity {
          is.close();
 
          if (bitmap != null) {
+
             // Bild in PaintByNumbersView einsetzen
             paintView.setImage(bitmap);
 
