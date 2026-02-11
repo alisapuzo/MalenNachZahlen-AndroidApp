@@ -17,7 +17,6 @@ import java.io.InputStream;
 public class HomeActivity extends AppCompatActivity {
     private Button logoutButton;
     private Button startGameButton;
-    private TextView userInfoText;
     private FirebaseAuth mAuth;
     private LinearLayout imageContainer;
     private String selectedImage = null; //speichert welches Bild gewählt wurde
@@ -30,7 +29,6 @@ public class HomeActivity extends AppCompatActivity {
         // Views finden
         startGameButton = findViewById(R.id.startGameButton);
         logoutButton = findViewById(R.id.logoutButton);
-        userInfoText = findViewById(R.id.userInfoText);
         imageContainer = findViewById(R.id.imageContainer);
 
         // Firebase initialisieren

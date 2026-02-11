@@ -27,18 +27,18 @@ public class PaintByNumbersView extends View {
     private float scaleFactor = 1.0f;
     private int selectedColor = -1;
 
-    public PaintByNumbersView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+    public PaintByNumbersView(Context context, AttributeSet attrs) {      // Konstruktor wird automatisch aufgerufen wenn activity_game.xml geladen wird
+        super(context, attrs);      // Ruft den Konstruktor der Elternklasse (View) auf
         init();
 
     }
 
     private void init() {
-        // Pixel
+        // Paint Objekt um Pixel auszumalen
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
 
-        // Zahlen
+        // Zahlen auf den Pixeln
         textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(20);
@@ -49,7 +49,7 @@ public class PaintByNumbersView extends View {
 
     // Bild laden und analysieren
     public void setImage(Bitmap bitmap) {
-        this.originalBitmap = bitmap;
+        this.originalBitmap = bitmap;       // Klassenvaribale
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
@@ -95,17 +95,16 @@ public class PaintByNumbersView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
-        if (grayBitmap == null) return; // Bild noch nciht geladen
+        if (grayBitmap == null) return; // Bild noch nicht geladen
 
         int width = grayBitmap.getWidth();
         int height = grayBitmap.getHeight();
 
         // Skalierung, Bild an Bildschirm anpassen
-        float scaleX = (float) getWidth()/width;
+        float scaleX = (float) getWidth()/width;       // Pixel vom Bildschirm/Anzahl Pixel Bild
         float scaleY = (float) getHeight()/height;
-        scaleFactor = Math.min(scaleX, scaleY);
+        scaleFactor = Math.min(scaleX, scaleY);     // Die kleinere Zahl auswählen um die max. Größe für die Pixel auszurechnen
 
         float pixelSize = scaleFactor;
 
