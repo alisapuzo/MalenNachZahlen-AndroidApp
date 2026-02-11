@@ -92,7 +92,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                         // Login fehlgeschlagen
+                        // Standardfehlermeldung gesetzt, die angezeigt wird, falls wir keine genauere Info vom System
                         String errorMessage = "Login fehlgeschlagen";
+                        //genaue Ursache des Fehlers erfasst
                         if (task.getException() != null) {
                             errorMessage = task.getException().getMessage();
                         }

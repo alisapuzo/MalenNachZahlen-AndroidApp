@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this) //baut Dialogfenster
                 .setTitle("Abmelden")
                 .setMessage("Möchtest du dich wirklich abmelden?")
                 .setPositiveButton("Ja", (dialog, which) -> {
@@ -105,14 +105,6 @@ public class HomeActivity extends AppCompatActivity {
             imageView.setOnClickListener(v -> {
                 selectedImage = imageName;
                 Toast.makeText(this, imageName + " ausgewählt", Toast.LENGTH_SHORT).show();
-
-                // Alle Rahmen zurücksetzen
-                for (int i = 0; i < imageContainer.getChildCount(); i++) {
-                    imageContainer.getChildAt(i).setBackgroundColor(0xFFCCCCCC);
-                }
-
-                // Aktives Bild hervorheben
-                imageView.setBackgroundColor(0xFF00BCD4);
             });
 
             imageContainer.addView(imageView);

@@ -105,7 +105,7 @@ public class GameActivity extends AppCompatActivity {
 
          // Button für jede Farbe erstellen
          Button colorButton = new Button(this);
-         colorButton.setText(String.valueOf(number));
+         colorButton.setText(String.valueOf(number)); //Zahl wird als Text angezeigt
          colorButton.setBackgroundColor(color);
 
          // Button-Größe
@@ -143,7 +143,7 @@ public class GameActivity extends AppCompatActivity {
       return brightness < 128;
    }
 
-   // Fortschritts
+   // Fortschrittsanzeige
    private void updateProgressDisplay() {
       int painted = paintView.countPaintedPixels();
       int total = paintView.getTotalPixels();
@@ -159,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
    private void saveProgress() {
       Map<String, Boolean> paintedPixelsMap = paintView.getPaintedPixelsMap();
 
-      Map<String, Object> progressData = new HashMap<>();
+      Map<String, Object> progressData = new HashMap<>(); //Neue Map wird erstellt
       progressData.put("imageFile", imageFile);
       progressData.put("paintedPixels", paintedPixelsMap);
       progressData.put("paintedCount", paintView.countPaintedPixels());
@@ -183,6 +183,7 @@ public class GameActivity extends AppCompatActivity {
               .document(imageFile)
               .get()
               .addOnSuccessListener(documentSnapshot -> {
+                 //Prüft ob Speicherstand existiert
                  if (documentSnapshot.exists()) {
                     Map<String, Boolean> paintedPixelsMap = (Map<String, Boolean>) documentSnapshot.get("paintedPixels");
 
