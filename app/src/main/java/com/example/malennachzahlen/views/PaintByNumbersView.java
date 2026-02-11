@@ -191,8 +191,7 @@ public class PaintByNumbersView extends View {
 
     // Lade gespeicherten Fortschritt
     public void setPaintedPixels(Map<String, Boolean> paintedPixels) {
-        if (isPainted == null)
-            return;
+
         for (Map.Entry<String, Boolean> entry : paintedPixels.entrySet()) {
             String[] coords = entry.getKey().split("_");
             int x = Integer.parseInt(coords[0]);
