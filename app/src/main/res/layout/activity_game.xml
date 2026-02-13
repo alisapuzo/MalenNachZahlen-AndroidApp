@@ -19,14 +19,21 @@
 
         <TextView
             android:id="@+id/progressText"
-            android:layout_width="0dp"
+            android:layout_width="214dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Fortschritt: 0%"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bild zurück- setzten" />
 
     </LinearLayout>
 

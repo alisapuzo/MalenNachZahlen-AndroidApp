@@ -159,7 +159,7 @@ public class PaintByNumbersView extends View {
             }
             return true;
         }
-        return super.onTouchEvent(event);
+        return false;
     }
 
     // SETTER UND GETTER

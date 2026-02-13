@@ -21,8 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameActivity extends AppCompatActivity {
 
    private TextView progressText;
-   private Button pauseButton;
    private Button backButton;
+   private Button clearButton;
    private PaintByNumbersView paintView;
    private LinearLayout colorPalette;
 
@@ -39,15 +39,16 @@ public class GameActivity extends AppCompatActivity {
       setContentView(R.layout.activity_game);
 
       // Firebase initalisieren
-      mAuth =FirebaseAuth.getInstance();
+      mAuth =FirebaseAuth.getInstance();     // Klassenmethode
       db = FirebaseFirestore.getInstance();
 
       // UserId holen
-      userId = mAuth.getCurrentUser().getUid();
+      userId = mAuth.getCurrentUser().getUid();    // Instanzmethoden
 
       // Views verküpfen
       progressText = findViewById(R.id.progressText);
       backButton = findViewById(R.id.backButton);
+      clearButton = findViewById(R.id.button6);
       paintView = findViewById(R.id.paintView);
       colorPalette = findViewById(R.id.colorPalette);
 
@@ -57,6 +58,12 @@ public class GameActivity extends AppCompatActivity {
       backButton.setOnClickListener(v -> {
          saveProgress();
          navigateToHome();
+      });
+
+      clearButton.setOnClickListener(v -> {
+         loadImage();
+         updateProgressDisplay();
+
       });
 
       // Bild unf Fortschritt laden
@@ -73,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
    // Bild mithilfe der PaintByNumbersView laden
    private void loadImage() {
       try {
-         InputStream is = getAssets().open(imageFile);
+         InputStream is = getAssets().open(imageFile); // Zugriff auf Assets ordner
          Bitmap bitmap = BitmapFactory.decodeStream(is);
          is.close();
 
